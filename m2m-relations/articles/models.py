@@ -1,6 +1,5 @@
-from tkinter import CASCADE
-
 from django.db import models
+
 
 
 class Article(models.Model):
@@ -18,12 +17,15 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 
+
 class Articles_tag(models.Model):
     name = models.TextField(verbose_name='Название')
-    articles = models.ManyToManyField(Article, through="Articles_scope")
+    articles = models.ManyToManyField(Article, related_name="articles_tag", through="Articles_scope")
+
 
 class Articles_scope(models.Model):
     articles = models.ForeignKey(Article, on_delete=models.CASCADE, related_name="scopes")
     tag = models.ForeignKey(Articles_tag, on_delete=models.CASCADE, related_name="scopes")
+
     is_main = models.BooleanField()
 
